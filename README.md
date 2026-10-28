@@ -15,7 +15,7 @@
   <a href="https://github.com/zixin947/dsh-compact/issues"><img src="https://img.shields.io/badge/Let's_Talk-GitHub_Issues-0F766E?style=for-the-badge&amp;logo=github&amp;logoColor=white" alt="通过 GitHub Issues 交流" /></a>
 </p>
 
-[个人项目](#-个人项目) · [开源贡献](#-开源贡献) · [技术与工程](#-技术与工程) · [开发足迹](#-开发足迹)
+[个人项目](#projects) · [开源贡献](#contributions) · [技术与工程](#stack) · [开发足迹](#activity)
 
 </div>
 
@@ -29,6 +29,8 @@
 - **学习与探索：** RAG、Agentic RAG、Agent Memory、MCP 与 LLM 应用评估。
 
 ---
+
+<a id="projects"></a>
 
 ## 🚀 个人项目
 
@@ -71,6 +73,8 @@
 
 ---
 
+<a id="contributions"></a>
+
 ## 🌐 开源贡献
 
 参与 DeepSeek Harness 生态的插件、桌面客户端与模型集成开发，通过修复、文档和回归验证向上游贡献。
@@ -88,6 +92,8 @@
 
 ---
 
+<a id="stack"></a>
+
 ## 🛠️ 技术与工程
 
 | 方向 | 技术与实践 |
@@ -103,6 +109,8 @@
 </p>
 
 ---
+
+<a id="activity"></a>
 
 ## 📊 开发足迹
 
