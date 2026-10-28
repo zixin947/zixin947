@@ -15,7 +15,7 @@
   <a href="https://github.com/zixin947/dsh-compact/issues"><img src="https://img.shields.io/badge/Let's_Talk-GitHub_Issues-0F766E?style=for-the-badge&amp;logo=github&amp;logoColor=white" alt="通过 GitHub Issues 交流" /></a>
 </p>
 
-[个人项目](#projects) · [开源贡献](#contributions) · [技术与工程](#stack) · [开发足迹](#activity)
+[代表项目](#projects) · [开源贡献](#contributions) · [技术与工程](#stack) · [开发足迹](#activity)
 
 </div>
 
@@ -32,25 +32,25 @@
 
 <a id="projects"></a>
 
-## 🚀 个人项目
+## 🚀 代表项目
 
 <table>
   <tr>
     <td width="50%" valign="top">
-      <h3 align="center">🧩 <a href="https://github.com/zixin947/dsh-compact">dsh-compact</a></h3>
-      <p align="center"><b>为 DeepSeek Harness 管理上下文压力</b></p>
+      <h3 align="center">🧩 <a href="https://github.com/Ebony-Vinyl/dsh-our-free-model">Our Free Model / OFM</a></h3>
+      <p align="center"><b>连接模型渠道与开发工具</b><br>主要维护者</p>
       <p align="center">
-        <a href="https://github.com/zixin947/dsh-compact/stargazers"><img src="https://img.shields.io/github/stars/zixin947/dsh-compact?style=flat-square&amp;color=38bdf8" alt="dsh-compact Stars" /></a>
+        <a href="https://github.com/Ebony-Vinyl/dsh-our-free-model/stargazers"><img src="https://img.shields.io/github/stars/Ebony-Vinyl/dsh-our-free-model?style=flat-square&amp;color=38bdf8&amp;label=Upstream%20Stars" alt="OFM 上游 Stars" /></a>
         <img src="https://img.shields.io/badge/JavaScript-Plugin-F7DF1E?style=flat-square&amp;logo=javascript&amp;logoColor=black" alt="JavaScript 插件" />
-        <a href="https://github.com/zixin947/dsh-compact/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-34d399?style=flat-square" alt="MIT 许可证" /></a>
+        <a href="https://github.com/Ebony-Vinyl/dsh-our-free-model/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-34d399?style=flat-square" alt="MIT 许可证" /></a>
       </p>
       <ul>
-        <li><b>自动与手动压缩：</b>按上下文压力生成检查点摘要，提供 <code>/compact</code> 与设置入口。</li>
-        <li><b>工具结果裁剪：</b>限制过长工具输出持续占用上下文。</li>
-        <li><b>有界恢复：</b>在明确的上下文溢出后，按配置进行有限次数的压缩与重试。</li>
-        <li><b>插件集成：</b>复用官方压缩引擎，提供独立 Agent 入口与按模型配置的策略。</li>
+        <li><b>模型接入：</b>为 DeepSeek Harness 整合多种模型渠道、账号与 Provider。</li>
+        <li><b>本地网关：</b>提供 OpenAI 兼容接口，连接其它开发工具与客户端。</li>
+        <li><b>使用体验：</b>包含模型管理、用量看板、运行日志与应用内升级。</li>
+        <li><b>维护工作：</b>账号渠道的排队换号、请求级重试保护与相关修复。</li>
       </ul>
-      <p align="center"><a href="https://github.com/zixin947/dsh-compact#readme"><b>查看代码与使用说明 →</b></a></p>
+      <p align="center"><a href="https://github.com/Ebony-Vinyl/dsh-our-free-model#readme"><b>查看项目 →</b></a> · <a href="https://github.com/Ebony-Vinyl/dsh-our-free-model/pulls?q=is%3Apr+is%3Amerged+author%3Azixin947"><b>我的贡献 →</b></a></p>
     </td>
     <td width="50%" valign="top">
       <h3 align="center">🖥️ <a href="https://github.com/zixin947/codex-atelier">Codex Atelier</a></h3>
@@ -119,7 +119,7 @@
   <a href="https://github.com/zixin947?tab=repositories"><img src="assets/github-languages.svg" width="49%" alt="dsh-compact 与 codex-atelier 两个个人项目的代码语言字节分布，不代表熟练度" /></a>
 </p>
 
-<p align="center"><sub>卡片每 6 小时更新一次；语言分布仅统计上述两个个人项目，按 GitHub 返回的代码字节数计算。</sub></p>
+<p align="center"><sub>卡片每 6 小时更新一次；语言分布仅统计 dsh-compact 与 codex-atelier，按 GitHub 返回的代码字节数计算。</sub></p>
 
 ### 🐍 贡献轨迹
 
