@@ -1,0 +1,58 @@
+name: 更新主页图表
+
+on:
+  schedule:
+    - cron: '17 */6 * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/update-profile.yml'
+      - 'scripts/update-profile.py'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: profile-assets
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - name: 检出主页仓库
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: 准备 Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.12'
+
+      - name: 生成公开统计卡片
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python scripts/update-profile.py
+
+      - name: 生成贡献蛇动画
+        uses: Platane/snk/svg-only@d8f6715049803e982ee5ff501b6b9b7d5deeb09b # v3.5.0
+        with:
+          github_user_name: zixin947
+          outputs: |
+            assets/github-contribution-snake.svg
+            assets/github-contribution-snake-dark.svg?palette=github-dark
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: 提交已生成的图片
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add assets/github-stats.svg assets/github-languages.svg assets/github-contribution-snake.svg assets/github-contribution-snake-dark.svg
+          if ! git diff --cached --quiet; then
+            git commit -m 'docs: 自动更新主页统计与贡献动画'
+            git push
+          fi
