@@ -124,7 +124,7 @@
   <a href="https://github.com/zixin947?tab=repositories"><img src="assets/github-languages.svg" width="49%" alt="dsh-compact 与 codex-atelier 两个个人项目的代码语言字节分布，不代表熟练度" /></a>
 </p>
 
-<p align="center"><sub>卡片每 6 小时更新一次；等级按公开上游已合并 PR 数自定义计算，仓库排行按贡献过的上游仓库当前 Star 数排序，展示前六名；语言分布仅统计 dsh-compact 与 codex-atelier，按 GitHub 返回的代码字节数计算。</sub></p>
+<p align="center"><sub>卡片每 6 小时更新一次；等级按公开上游已合并 PR 数自定义计算，仓库排行展示 Star 数最高的四个上游仓库，最后两项依次固定为 EACbot 与 Codex Atelier，均读取真实 Star 数；语言分布仅统计 dsh-compact 与 codex-atelier，按 GitHub 返回的代码字节数计算。</sub></p>
 
 <p align="center"><sub>卡片布局参考 <a href="https://github.com/ggbdpq/ggbdpq">ggbdpq</a>；DeepSeek 娘图片取自其 <a href="https://github.com/ggbdpq/ggbdpq/blob/main/assets/deepseek-chan.png">素材文件</a>，原始画作者尚未确认。</sub></p>
 
