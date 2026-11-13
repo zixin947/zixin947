@@ -81,7 +81,7 @@ def main():
     )
     dashboard_data = fetch_dashboard(query)
     dashboards = {
-        f"github-stats-{theme}.svg": dashboard(profile, dashboard_data, date, theme)
+        f"upstream-stars-{theme}.svg": dashboard(profile, dashboard_data, date, theme)
         for theme in ("light", "dark")
     }
 
@@ -124,7 +124,7 @@ def main():
     version = datetime.now(timezone.utc).strftime("%Y%m%d%H%M%S")
     markdown = readme.read_text(encoding="utf-8")
     markdown = re.sub(
-        r"(assets/github-stats-(?:light|dark)\.svg)(?:\?v=[\w-]+)?",
+        r"(assets/upstream-stars-(?:light|dark)\.svg)(?:\?v=[\w-]+)?",
         lambda match: f"{match[1]}?v={version}",
         markdown,
     )
