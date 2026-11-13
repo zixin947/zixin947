@@ -4,6 +4,7 @@ import html
 import base64
 from collections import Counter
 import json
+import re
 from pathlib import Path
 import subprocess
 from datetime import datetime, timezone
@@ -119,6 +120,15 @@ def main():
         temporary = assets / (name + ".tmp")
         temporary.write_text(svg, encoding="utf-8")
         temporary.replace(assets / name)
+    readme = ROOT / "README.md"
+    version = datetime.now(timezone.utc).strftime("%Y%m%d%H%M%S")
+    markdown = readme.read_text(encoding="utf-8")
+    markdown = re.sub(
+        r"(assets/github-stats-(?:light|dark)\.svg)(?:\?v=[\w-]+)?",
+        lambda match: f"{match[1]}?v={version}",
+        markdown,
+    )
+    readme.write_text(markdown, encoding="utf-8", newline="\n")
     print(f"Generated public profile cards: {stats[1][1]} merged upstream PRs")
 
 
