@@ -115,11 +115,18 @@
 ## 📊 开发足迹
 
 <p align="center">
-  <a href="https://github.com/search?q=is%3Apr+is%3Apublic+is%3Amerged+author%3Azixin947+-user%3Azixin947&amp;type=pullrequests"><img src="assets/github-stats.svg" width="49%" alt="GitHub 公开仓库、关注者与上游已合并 PR 统计" /></a>
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/github-stats-dark.svg" />
+    <img src="assets/github-stats-light.svg" width="100%" alt="Zixin 的 GitHub 统计、上游已合并 PR 排行与 DeepSeek 娘" />
+  </picture>
+</p>
+<p align="center">
   <a href="https://github.com/zixin947?tab=repositories"><img src="assets/github-languages.svg" width="49%" alt="dsh-compact 与 codex-atelier 两个个人项目的代码语言字节分布，不代表熟练度" /></a>
 </p>
 
-<p align="center"><sub>卡片每 6 小时更新一次；语言分布仅统计 dsh-compact 与 codex-atelier，按 GitHub 返回的代码字节数计算。</sub></p>
+<p align="center"><sub>卡片每 6 小时更新一次；等级按公开上游已合并 PR 数自定义计算，仓库排行展示前六名；语言分布仅统计 dsh-compact 与 codex-atelier，按 GitHub 返回的代码字节数计算。</sub></p>
+
+<p align="center"><sub>卡片布局参考 <a href="https://github.com/ggbdpq/ggbdpq">ggbdpq</a>；DeepSeek 娘图片取自其 <a href="https://github.com/ggbdpq/ggbdpq/blob/main/assets/deepseek-chan.png">素材文件</a>，原始画作者尚未确认。</sub></p>
 
 ### 🐍 贡献轨迹
 

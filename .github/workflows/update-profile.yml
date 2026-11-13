@@ -9,6 +9,7 @@ on:
     paths:
       - '.github/workflows/update-profile.yml'
       - 'scripts/update-profile.py'
+      - 'assets/deepseek-chan.png'
 
 permissions:
   contents: read
@@ -51,8 +52,8 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add assets/github-stats.svg assets/github-languages.svg assets/github-contribution-snake.svg assets/github-contribution-snake-dark.svg
+          git add assets/github-stats-light.svg assets/github-stats-dark.svg assets/github-stats.svg assets/github-languages.svg assets/github-contribution-snake.svg assets/github-contribution-snake-dark.svg
           if ! git diff --cached --quiet; then
-            git commit -m 'docs: 自动更新主页统计与贡献动画'
+            git commit -m 'docs(主页)：自动更新统计与贡献动画'
             git push
           fi

@@ -41,3 +41,12 @@
 ## 验证方式
 
 检查 Markdown 的 GitHub 渲染、桌面与窄屏显示、图片加载、项目和贡献查询链接，以及首次 Actions 的运行结果。统计脚本运行和 `git diff --check` 是最低检查；无应用构建或业务测试。
+
+
+## 全宽统计卡片与人物素材
+
+统计卡片提供明暗主题，使用 GitHub API 读取公开上游已合并 PR、近一年贡献与提交数据。排行按完整仓库名聚合，展示前六名。自定义等级只按上游已合并 PR 数计算，E/D/C/B/A/S 门槛分别为 0/1/5/20/50/100，非 GitHub 官方评级。搜索不完整、超过 1000 条或 API 出错时保留已生成卡片。
+
+布局参考 https://github.com/ggbdpq/ggbdpq ，渲染逻辑在现有脚本中独立实现。
+
+人物图片取自 https://github.com/ggbdpq/ggbdpq/blob/3fcd4d1e0805e76c3fa2d4fc461b33758821c149/assets/deepseek-chan.png 。该提交称其为 DeepSeek 娘立绘，未标注原画作者或单独授权。原始画作者仍不确定，保留来源标注。相关角色的工坊版本可参见 https://steamcommunity.com/sharedfiles/filedetails/?id=3807575879 ，由 BrickAZ/deepseek-chan-emotes 的来源说明指向，但尚无证据确认它就是本 PNG 的出处。
