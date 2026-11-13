@@ -11,6 +11,7 @@ from urllib.parse import urlencode
 
 USER = "zixin947"
 LANGUAGE_REPOS = ("dsh-compact", "codex-atelier")
+FEATURED_REPOS = ("Ebony-Vinyl/EACbot", "zixin947/codex-atelier")
 ROOT = Path(__file__).resolve().parents[1]
 COLORS = ("#38bdf8", "#34d399", "#c4b5fd", "#fbbf24", "#fb7185")
 
@@ -146,11 +147,15 @@ def fetch_dashboard(query):
         check=True, capture_output=True, text=True, encoding="utf-8",
     )
     collection = json.loads(result.stdout)["data"]["user"]["contributionsCollection"]
-    return counts, collection
+    stars = {}
+    for repo in dict.fromkeys((*counts, *FEATURED_REPOS)):
+        repository = api(f"repos/{repo}")
+        stars[repository["full_name"]] = int(repository["stargazers_count"])
+    return counts, collection, stars
 
 
 def dashboard(profile, data, date, theme):
-    counts, collection = data
+    counts, collection, stars = data
     dark = theme == "dark"
     background, border, foreground, muted, accent = (
         ("#0f172a", "#334155", "#f8fafc", "#94a3b8", "#38bdf8") if dark else
@@ -180,21 +185,26 @@ def dashboard(profile, data, date, theme):
     body += f'<circle cx="625" cy="115" r="47" fill="none" stroke="{accent}" stroke-width="10"/>'
     body += f'<text x="625" y="130" text-anchor="middle" font-size="42" fill="{foreground}" font-weight="700">{rank}</text>'
     body += text(525, 188, f"Custom rank · {total} merged PRs", 12, muted)
-    top = sorted(counts.items(), key=lambda item: (-item[1], item[0]))[:6]
-    peak = max(counts.values(), default=1)
+    body += text(405, 208, "REPOSITORY STARS", 10, muted, 700)
+    ranked = sorted(
+        ((repo, count) for repo, count in stars.items() if repo not in FEATURED_REPOS),
+        key=lambda item: (-item[1], item[0]),
+    )
+    top = ranked[:4] + [(repo, stars[repo]) for repo in FEATURED_REPOS]
+    peak = max(max((count for _, count in top), default=0), 1)
     for index, (repo, count) in enumerate(top):
-        y = 222 + index * 25
+        y = 230 + index * 25
         body += text(405, y, repo, 11, foreground)
-        width = 140 * count / peak
+        width = 120 * count / peak
         body += f'<rect x="680" y="{y - 8}" width="{width:.1f}" height="8" rx="4" fill="{COLORS[index % len(COLORS)]}"/>'
-        body += text(828, y, count, 11, muted)
+        body += text(808, y, count, 11, muted)
     if not top:
         body += text(445, 250, "No merged upstream pull requests yet", 13, muted)
     body += text(405, 383, "Rank by upstream PRs: E 0 / D 1 / C 5 / B 20 / A 50 / S 100", 10, muted)
-    body += text(32, 408, f"PUBLIC DATA · {date} UTC · Top 6 repositories shown", 10, muted)
+    body += text(32, 408, f"PUBLIC DATA · {date} UTC · Top 4 upstream repos + EACbot / Codex Atelier", 10, muted)
     return (
         '<svg xmlns="http://www.w3.org/2000/svg" width="880" height="430" viewBox="0 0 880 430" role="img" aria-labelledby="title">'
-        '<title id="title">Zixin GitHub statistics and merged upstream pull requests</title>'
+        '<title id="title">Zixin GitHub statistics and contributed upstream repository stars</title>'
         f'<rect x="0.5" y="0.5" width="879" height="429" rx="16" fill="{background}" stroke="{border}"/>'
         '<g font-family="Segoe UI,Arial,sans-serif">' + body + '</g></svg>\n'
     )
