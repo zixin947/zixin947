@@ -1,6 +1,8 @@
 """Generate public GitHub profile cards using the authenticated GitHub CLI."""
 
 import html
+import base64
+from collections import Counter
 import json
 from pathlib import Path
 import subprocess
@@ -15,7 +17,7 @@ COLORS = ("#38bdf8", "#34d399", "#c4b5fd", "#fbbf24", "#fb7185")
 
 def api(endpoint):
     result = subprocess.run(
-        ["gh", "api", endpoint], check=True, capture_output=True, text=True
+        ["gh", "api", endpoint], check=True, capture_output=True, text=True, encoding="utf-8"
     )
     return json.loads(result.stdout)
 
@@ -75,6 +77,11 @@ def main():
         content,
         date,
     )
+    dashboard_data = fetch_dashboard(query)
+    dashboards = {
+        f"github-stats-{theme}.svg": dashboard(profile, dashboard_data, date, theme)
+        for theme in ("light", "dark")
+    }
 
     entries = sorted(languages.items(), key=lambda item: (-item[1], item[0]))
     total = sum(languages.values())
@@ -106,11 +113,91 @@ def main():
     for name, svg in (
         ("github-stats.svg", stats_svg),
         ("github-languages.svg", language_svg),
+        *dashboards.items(),
     ):
         temporary = assets / (name + ".tmp")
         temporary.write_text(svg, encoding="utf-8")
         temporary.replace(assets / name)
     print(f"Generated public profile cards: {stats[1][1]} merged upstream PRs")
+
+
+def fetch_dashboard(query):
+    counts = Counter()
+    page = 1
+    items = []
+    while True:
+        response = api("search/issues?" + urlencode({"q": query, "per_page": 100, "page": page}))
+        if response.get("incomplete_results") or response["total_count"] > 1000:
+            raise RuntimeError("Incomplete upstream PR search; keeping existing cards")
+        items.extend(response["items"])
+        if len(items) >= response["total_count"]:
+            break
+        if not response["items"]:
+            raise RuntimeError("Missing upstream PR search page")
+        page += 1
+    for item in items:
+        counts[item["repository_url"].split("/repos/", 1)[1]] += 1
+    query_text = """query($login:String!){user(login:$login){
+      contributionsCollection{contributionCalendar{totalContributions}
+      totalCommitContributions totalIssueContributions totalRepositoriesWithContributedCommits}
+    }}"""
+    result = subprocess.run(
+        ["gh", "api", "graphql", "-f", f"query={query_text}", "-f", f"login={USER}"],
+        check=True, capture_output=True, text=True, encoding="utf-8",
+    )
+    collection = json.loads(result.stdout)["data"]["user"]["contributionsCollection"]
+    return counts, collection
+
+
+def dashboard(profile, data, date, theme):
+    counts, collection = data
+    dark = theme == "dark"
+    background, border, foreground, muted, accent = (
+        ("#0f172a", "#334155", "#f8fafc", "#94a3b8", "#38bdf8") if dark else
+        ("#f8fafc", "#dbe4ef", "#0f172a", "#64748b", "#0369a1")
+    )
+    total = sum(counts.values())
+    thresholds = ((100, "S"), (50, "A"), (20, "B"), (5, "C"), (1, "D"), (0, "E"))
+    rank = next(label for floor, label in thresholds if total >= floor)
+    rows = (
+        ("Merged upstream PRs", total),
+        ("Contributions (last year)", collection["contributionCalendar"]["totalContributions"]),
+        ("Commits (last year)", collection["totalCommitContributions"]),
+        ("Repositories committed to (year)", collection["totalRepositoriesWithContributedCommits"]),
+        ("Issues opened (last year)", collection["totalIssueContributions"]),
+        ("Public repositories", profile["public_repos"]),
+        ("Followers", profile["followers"]),
+    )
+    body = text(58, 44, "GITHUB STATS", 16, accent, 700)
+    for index, (label, value) in enumerate(rows):
+        y = 82 + index * 27
+        body += text(42, y, label, 12, muted)
+        body += f'<text x="350" y="{y}" text-anchor="end" font-size="14" font-weight="700" fill="{foreground}">{value}</text>'
+    image = base64.b64encode((ROOT / "assets/deepseek-chan.png").read_bytes()).decode("ascii")
+    body += f'<image x="140" y="264" width="110" height="110" href="data:image/png;base64,{image}"/>'
+    body += f'<path d="M380 65V370" stroke="{border}"/>'
+    body += text(438, 44, f"{total} merged PRs in {len(counts)} upstream repos", 13, muted)
+    body += f'<circle cx="625" cy="115" r="47" fill="none" stroke="{accent}" stroke-width="10"/>'
+    body += f'<text x="625" y="130" text-anchor="middle" font-size="42" fill="{foreground}" font-weight="700">{rank}</text>'
+    body += text(525, 188, f"Custom rank · {total} merged PRs", 12, muted)
+    top = sorted(counts.items(), key=lambda item: (-item[1], item[0]))[:6]
+    peak = max(counts.values(), default=1)
+    for index, (repo, count) in enumerate(top):
+        y = 222 + index * 25
+        body += text(405, y, repo, 11, foreground)
+        width = 140 * count / peak
+        body += f'<rect x="680" y="{y - 8}" width="{width:.1f}" height="8" rx="4" fill="{COLORS[index % len(COLORS)]}"/>'
+        body += text(828, y, count, 11, muted)
+    if not top:
+        body += text(445, 250, "No merged upstream pull requests yet", 13, muted)
+    body += text(405, 383, "Rank by upstream PRs: E 0 / D 1 / C 5 / B 20 / A 50 / S 100", 10, muted)
+    body += text(32, 408, f"PUBLIC DATA · {date} UTC · Top 6 repositories shown", 10, muted)
+    return (
+        '<svg xmlns="http://www.w3.org/2000/svg" width="880" height="430" viewBox="0 0 880 430" role="img" aria-labelledby="title">'
+        '<title id="title">Zixin GitHub statistics and merged upstream pull requests</title>'
+        f'<rect x="0.5" y="0.5" width="879" height="429" rx="16" fill="{background}" stroke="{border}"/>'
+        '<g font-family="Segoe UI,Arial,sans-serif">' + body + '</g></svg>\n'
+    )
 
 
 if __name__ == "__main__":
