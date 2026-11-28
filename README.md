@@ -116,8 +116,8 @@
 
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="assets/upstream-stars-dark.svg?v=20261127212458" />
-    <img src="assets/upstream-stars-light.svg?v=20261127212458" width="100%" alt="Zixin 的 GitHub 统计、上游已合并 PR 排行与 DeepSeek 娘" />
+    <source media="(prefers-color-scheme: dark)" srcset="assets/upstream-stars-dark.svg?v=20261128075740" />
+    <img src="assets/upstream-stars-light.svg?v=20261128075740" width="100%" alt="Zixin 的 GitHub 统计、上游已合并 PR 排行与 DeepSeek 娘" />
   </picture>
 </p>
 <p align="center">
